@@ -9,7 +9,7 @@ use App\Http\Requests\ProductRequest;
 class Product extends Component
 {
 
-    public $products, $name, $price, $qty, $id;
+    public $products, $name, $price, $qty, $id,$searchTerm = '';
     public $isOpen = 0;
 
 
@@ -18,8 +18,13 @@ class Product extends Component
     public function render()
     {
 
-        $this->products = Prd::all();
+        $this->products = Prd::where('name', 'like', '%' . $this->searchTerm . '%')->get();
         return view('livewire.product');
+    }
+
+    public function search()
+    {
+        $this->render();
     }
 
     public function create()
